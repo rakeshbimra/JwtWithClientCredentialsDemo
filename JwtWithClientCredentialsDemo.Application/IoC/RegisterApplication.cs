@@ -1,4 +1,7 @@
 ﻿using JwtWithClientCredentialsDemo.Application.Authentication;
+using JwtWithClientCredentialsDemo.Application.ConfigOptions;
+using JwtWithClientCredentialsDemo.Application.ConfigOptions.Validators;
+using JwtWithClientCredentialsDemo.Application.Helpers.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,7 +15,9 @@ namespace JwtWithClientCredentialsDemo.Application.IoC
     {
         public static void AddApplication(this IServiceCollection services)
         {
-            
+            //use extenstion method
+            services.AddWithValidation<JwtConfigOption, JwtConfigOptionValidator>(JwtConfigOption.SectionName);
+            services.AddWithValidation<AzureKeyVaultConfigOption, AzureKeyVaultConfigOptionValidator>(AzureKeyVaultConfigOption.SectionName);
         }
     }
 }

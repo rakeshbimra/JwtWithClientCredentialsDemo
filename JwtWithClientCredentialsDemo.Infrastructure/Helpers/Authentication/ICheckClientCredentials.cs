@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JwtWithClientCredentialsDemo.Infrastructure.Authentication
+namespace JwtWithClientCredentialsDemo.Infrastructure.Helpers.Authentication
 {
     public interface ICheckClientCredentials
     {

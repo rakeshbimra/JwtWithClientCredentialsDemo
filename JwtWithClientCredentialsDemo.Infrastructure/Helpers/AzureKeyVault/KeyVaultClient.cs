@@ -1,22 +1,25 @@
 ﻿using Azure.Core;
 using Azure.Security.KeyVault.Secrets;
-using JwtWithClientCredentialsDemo.Application.AzureKeyVault;
+using JwtWithClientCredentialsDemo.Application.ConfigOptions;
+using JwtWithClientCredentialsDemo.Application.Helpers.AzureKeyVault;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JwtWithClientCredentialsDemo.Infrastructure.AzureKeyVault
+namespace JwtWithClientCredentialsDemo.Infrastructure.Helpers.AzureKeyVault
 {
-    public class AzureKeyVaultClient : IAzureKeyVaultClient
+    public class KeyVaultClient : IKeyVaultClient
     {
         private readonly SecretClient _secretClient;
         private static readonly Dictionary<string, string> _secretCache = new Dictionary<string, string>();
 
-        public AzureKeyVaultClient(string keyVaultUri, TokenCredential tokenCredentail)
+        public KeyVaultClient(TokenCredential tokenCredentail,
+            IOptions<AzureKeyVaultConfigOption> configOptions)
         {
-            _secretClient = new SecretClient(new Uri(keyVaultUri), tokenCredentail);
+            
         }
 
         public async Task<string> GetCachedOrFetchSecretAsync(string secretName)

@@ -8,6 +8,7 @@ namespace JwtWithClientCredentialsDemo.Application.ConfigOptions
 {
     public class AzureKeyVaultConfigOption
     {
+        public const string SectionName = nameof(JwtConfigOption);
         public string Url { get; set; }
     }
 }

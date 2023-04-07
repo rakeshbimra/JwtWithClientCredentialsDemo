@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JwtWithClientCredentialsDemo.Application.AzureKeyVault
+namespace JwtWithClientCredentialsDemo.Application.Helpers.AzureKeyVault
 {
-    public interface IAzureKeyVaultClient
+    public interface IKeyVaultClient
     {
         Task<string> GetSecretAsync(string secretName);
         Task<string> GetCachedOrFetchSecretAsync(string secretName);

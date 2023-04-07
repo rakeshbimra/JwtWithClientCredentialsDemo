@@ -8,6 +8,7 @@ namespace JwtWithClientCredentialsDemo.WebApi.Requests
 {
     public class ClientCredentialsRequest
     {
+        public const string SectionName = nameof(ClientCredentialsRequest);
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
     }

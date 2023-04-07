@@ -11,7 +11,13 @@ namespace JwtWithClientCredentialsDemo.Application.ConfigOptions.Validators
     {
         public JwtConfigOptionValidator()
         {
-            
+            RuleFor(x => x.Audience).NotEmpty();
+
+            RuleFor(x => x.Issuer).NotEmpty();
+
+            RuleFor(x => x.ExpiryMinutes).NotEmpty();
+
+            RuleFor(x => x.Secret).NotEmpty();
         }
     }
 }

@@ -1,20 +1,20 @@
 ﻿using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using JwtWithClientCredentialsDemo.Application.Authentication;
-using JwtWithClientCredentialsDemo.Application.AzureKeyVault;
+using JwtWithClientCredentialsDemo.Application.Helpers.AzureKeyVault;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JwtWithClientCredentialsDemo.Infrastructure.Authentication
+namespace JwtWithClientCredentialsDemo.Infrastructure.Helpers.Authentication
 {
     public class CheckClientCredentials : ICheckClientCredentials
     {
-        private readonly IAzureKeyVaultClient _azureKeyVaultClient;
+        private readonly IKeyVaultClient _azureKeyVaultClient;
 
-        public CheckClientCredentials(IAzureKeyVaultClient azureKeyVaultClient)
+        public CheckClientCredentials(IKeyVaultClient azureKeyVaultClient)
         {
             _azureKeyVaultClient = azureKeyVaultClient;
         }

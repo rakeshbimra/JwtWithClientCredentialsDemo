@@ -27,6 +27,7 @@ namespace JwtWithClientCredentialsDemo.WebApi.Controllers
         }
 
         [HttpPost]
+        [Route("generate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -36,15 +37,13 @@ namespace JwtWithClientCredentialsDemo.WebApi.Controllers
             {
                 var validationResult = _clientCredentialsRequestValidator.Validate(request);
 
-                if (validationResult.IsValid)
+                if (!validationResult.IsValid)
                 {
                     return new BadRequestResponse
                     {
                         Errors = validationResult.Errors
                                 .GroupBy(e => e.PropertyName)
                                 .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToList())
-
-
                     };
                 }
 
@@ -57,7 +56,7 @@ namespace JwtWithClientCredentialsDemo.WebApi.Controllers
                 return Unauthorized(ex.Message);
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
