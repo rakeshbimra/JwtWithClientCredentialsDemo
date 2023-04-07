@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JwtWithClientCredentialsDemo.Application.Authentication
+namespace JwtWithClientCredentialsDemo.Common.ConfigOptions
 {
-    public interface IAzureKeyVaultClientCredentialsProvider
+    public class AzureKeyVaultConfigOption
     {
     }
 }

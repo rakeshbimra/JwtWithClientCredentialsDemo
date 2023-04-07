@@ -1,4 +1,5 @@
 ﻿using JwtWithClientCredentialsDemo.Application.Authentication;
+using JwtWithClientCredentialsDemo.Application.ConfigOptions;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -13,42 +14,46 @@ namespace JwtWithClientCredentialsDemo.Infrastructure.Authentication
 {
     public class JwtTokenGenerator : IJwtTokenGenerator
     {
-        private readonly JwtSettings _jwtSetingsOption;
+        private readonly JwtConfigOption _jwtConfigOption;
+        private readonly ICheckClientCredentials _checkClientCredentials;
 
-        public JwtTokenGenerator(IOptions<JwtSettings> jwtSetings)
+        public JwtTokenGenerator(IOptions<JwtConfigOption> jwtSetings,
+            ICheckClientCredentials checkClientCredentials)
         {
-
-            _jwtSetingsOption = jwtSetings.Value;
-
+            _jwtConfigOption = jwtSetings.Value;
+            _checkClientCredentials = checkClientCredentials;
         }
-        public (string access_token, string token_type, DateTime expires_in) GenerateToken(Guid userId, string userName, IList<string> userRoles)
+
+        public async Task<AccessTokenResponse> GenerateToken(string clientId, string clientSecret)
         {
+            //if (!await _checkClientCredentials.Validate(clientId, clientSecret))
+            //{
+            //    throw new UnauthorizedAccessException("Invalid client credentails");
+            //}
+
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(_jwtSetingsOption.Secret)),
+                    Encoding.UTF8.GetBytes(_jwtConfigOption.Secret)),
                     SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub,userId.ToString()),
-                new Claim(ClaimTypes.Name,userName),
+                new Claim("client_id",clientId),
                 new Claim (JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
             };
 
-            foreach (var userRole in userRoles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, userRole));
-            }
-
-
             var securityToken = new JwtSecurityToken(
-                issuer: _jwtSetingsOption.Issuer,
-                audience: _jwtSetingsOption.Audience,
-                expires: DateTime.Now.AddMinutes(_jwtSetingsOption.ExpiryMinutes),
+                issuer: _jwtConfigOption.Issuer,
+                audience: _jwtConfigOption.Audience,
+                expires: DateTime.Now.AddMinutes(_jwtConfigOption.ExpiryMinutes),
                 claims: claims,
                 signingCredentials: signingCredentials);
 
-            return (new JwtSecurityTokenHandler().WriteToken(securityToken), "Bearer", securityToken.ValidTo);
+            return new AccessTokenResponse
+            {
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(securityToken),
+                ExpiresIn = securityToken.ValidTo.Ticks
+            };
         }
     }
 }

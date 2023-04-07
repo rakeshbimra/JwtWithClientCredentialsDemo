@@ -8,5 +8,6 @@ namespace JwtWithClientCredentialsDemo.Application.Authentication
 {
     public interface IJwtTokenGenerator
     {
+        Task<AccessTokenResponse> GenerateToken(string clientId, string clientSecret);
     }
 }
