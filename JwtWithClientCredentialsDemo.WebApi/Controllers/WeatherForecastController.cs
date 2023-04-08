@@ -21,24 +21,16 @@ namespace JwtWithClientCredentialsDemo.WebApi.Controllers
 
         [Authorize]
         [HttpGet]
-        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Get()
         {
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                var result = await _mediator.Send(new GetWeatherForecastsQuery());
 
-                return new SuccessResponse<IEnumerable<WeatherForecast>>()
-                {
-                    Data = result,
-                };
-            }
-            else
-            {
-                return new UnauthorizedResponse();
-            }
+            var result = await _mediator.Send(new GetWeatherForecastsQuery());
 
-            
+            return new SuccessResponse<IEnumerable<WeatherForecast>>()
+            {
+                Data = result,
+            };
         }
+
     }
 }
