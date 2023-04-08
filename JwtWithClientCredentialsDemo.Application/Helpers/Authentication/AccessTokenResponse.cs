@@ -16,6 +16,6 @@ namespace JwtWithClientCredentialsDemo.Application.Authentication
         public string TokenType { get; } = "Bearer";
 
         [JsonProperty("expires_in")]
-        public long ExpiresIn { get; set; }
+        public DateTime ExpiresIn { get; set; }
     }
 }

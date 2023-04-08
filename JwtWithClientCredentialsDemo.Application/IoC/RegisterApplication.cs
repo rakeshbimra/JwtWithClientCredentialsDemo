@@ -2,6 +2,7 @@
 using JwtWithClientCredentialsDemo.Application.ConfigOptions;
 using JwtWithClientCredentialsDemo.Application.ConfigOptions.Validators;
 using JwtWithClientCredentialsDemo.Application.Helpers.Extensions;
+using JwtWithClientCredentialsDemo.Application.WeatherForecasts.IoC;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace JwtWithClientCredentialsDemo.Application.IoC
             //use extenstion method
             services.AddWithValidation<JwtConfigOption, JwtConfigOptionValidator>(JwtConfigOption.SectionName);
             services.AddWithValidation<AzureKeyVaultConfigOption, AzureKeyVaultConfigOptionValidator>(AzureKeyVaultConfigOption.SectionName);
+            services.AddWeatherForcast();
         }
     }
 }

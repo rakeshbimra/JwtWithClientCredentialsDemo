@@ -45,14 +45,14 @@ namespace JwtWithClientCredentialsDemo.Infrastructure.Helpers.Authentication
             var securityToken = new JwtSecurityToken(
                 issuer: _jwtConfigOption.Issuer,
                 audience: _jwtConfigOption.Audience,
-                expires: DateTime.Now.AddMinutes(_jwtConfigOption.ExpiryMinutes),
+                expires: DateTime.UtcNow.AddSeconds(20),
                 claims: claims,
                 signingCredentials: signingCredentials);
 
             return new AccessTokenResponse
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(securityToken),
-                ExpiresIn = securityToken.ValidTo.Ticks
+                ExpiresIn = securityToken.ValidTo
             };
         }
     }

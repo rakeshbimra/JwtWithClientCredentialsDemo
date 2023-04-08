@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 
     });
+    builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 
     builder.Services.AddApplication();
     builder.Services.AddInfrastructure();
@@ -30,12 +31,17 @@ var app = builder.Build();
         //c.RoutePrefix = "swagger";
         c.RoutePrefix = string.Empty; // Set the RoutePrefix to an empty string
     });
+
+    
+
     app.UseHttpsRedirection();
-    app.MapControllers();
 
     // Authentication & Authorization
     app.UseAuthentication();
     app.UseAuthorization();
+    app.MapControllers();
+
+   
 
     
 }
